@@ -19,7 +19,6 @@ from MODULES.plot_distance_from_start import *
 from MODULES.persistence import *
 
 
-#current_time = time.strftime("%Y_%m_%d_%H_%M", time.localtime())
 ####################
 if not os.path.exists("LOGS"):
     os.makedirs("LOGS")
@@ -66,7 +65,6 @@ if __name__ == '__main__':
                 filename = "G:/"+file
                 
                 logger.info("opening %s" %filename)
-    ####################
 
                 main_dir = os.path.dirname(filename)
                 base_name = os.path.basename(filename).replace(".csv", "").replace(" ","_")
@@ -89,7 +87,6 @@ if __name__ == '__main__':
                 processlist.append(multiprocessing.Process(target=time_stuff, args=(delta_persistance, (track_dict, savedir,"png"),)))
                 processlist.append(multiprocessing.Process(target=time_stuff, args=(plot_total_velocity, (track_dict, savedir, "pdf"),)))
                 processlist.append(multiprocessing.Process(target=time_stuff, args=(plot_total_velocity_single_tracks, (track_dict, savedir, "pdf"),)))
-				## just added a comment
                 
                 print(len(processlist))
 
