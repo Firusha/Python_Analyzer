@@ -17,13 +17,14 @@ from MODULES.track_all import *
 from MODULES.plot_velocity import *
 from MODULES.plot_distance_from_start import *
 from MODULES.persistence import *
+from MODULES.distances_to_other_cells import *
 
 
 ####################
 if not os.path.exists("LOGS"):
     os.makedirs("LOGS")
 
-logger = logging.getLogger("analyze Tracks")
+logger = logging.getLogger("analyze_Tracks")
 logger.setLevel(logging.DEBUG)
 ####################
 current_time = time.strftime("%Y_%m_%d_%H_%M", time.localtime())
@@ -118,17 +119,18 @@ if __name__ == '__main__':
 
         processlist = []
 ##        processlist.append(multiprocessing.Process(target=time_stuff, args=(plot_slices, (track_dict, savedir, datatype),)))
-        processlist.append(multiprocessing.Process(target=time_stuff, args=(plot_all_tracks, (track_dict, savedir, datatype),)))
-        processlist.append(multiprocessing.Process(target=time_stuff, args=(single_plot_velocity, (track_dict, savedir, datatype),)))
+##        processlist.append(multiprocessing.Process(target=time_stuff, args=(plot_all_tracks, (track_dict, savedir, datatype),)))
+##        processlist.append(multiprocessing.Process(target=time_stuff, args=(single_plot_velocity, (track_dict, savedir, datatype),)))
 ##        processlist.append(multiprocessing.Process(target=time_stuff, args=(plot_tracks_centered, (track_dict, savedir, "png"),)))
-        processlist.append(multiprocessing.Process(target=time_stuff, args=(plot_all_tracks_centered, (track_dict, savedir, datatype),)))
+##        processlist.append(multiprocessing.Process(target=time_stuff, args=(plot_all_tracks_centered, (track_dict, savedir, datatype),)))
 ##        processlist.append(multiprocessing.Process(target=time_stuff, args=(plot_tracks_singular, (track_dict, savedir, "png"),)))
-        processlist.append(multiprocessing.Process(target=time_stuff, args=(plot_velocity, (track_dict, savedir, "png"),)))
+##        processlist.append(multiprocessing.Process(target=time_stuff, args=(plot_velocity, (track_dict, savedir, "png"),)))
 ##        processlist.append(multiprocessing.Process(target=time_stuff, args=(distance_from_start, (track_dict, savedir, datatype),)))
-        processlist.append(multiprocessing.Process(target=time_stuff, args=(calc_persistence, (track_dict, savedir),)))
-        processlist.append(multiprocessing.Process(target=time_stuff, args=(delta_persistance, (track_dict, savedir,"png"),)))
-        processlist.append(multiprocessing.Process(target=time_stuff, args=(plot_total_velocity, (track_dict, savedir, "pdf"),)))
-        processlist.append(multiprocessing.Process(target=time_stuff, args=(plot_total_velocity_single_tracks, (track_dict, savedir, "pdf"),)))
+##        processlist.append(multiprocessing.Process(target=time_stuff, args=(calc_persistence, (track_dict, savedir),)))
+##        processlist.append(multiprocessing.Process(target=time_stuff, args=(delta_persistance, (track_dict, savedir,"png"),)))
+##        processlist.append(multiprocessing.Process(target=time_stuff, args=(plot_total_velocity, (track_dict, savedir, "pdf"),)))
+##        processlist.append(multiprocessing.Process(target=time_stuff, args=(plot_total_velocity_single_tracks, (track_dict, savedir, "pdf"),)))
+        processlist.append(multiprocessing.Process(target=time_stuff, args=(plot_distances_centered, (track_dict, savedir, "pdf"),)))
         
         print(len(processlist))
 
