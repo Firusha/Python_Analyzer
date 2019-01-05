@@ -49,7 +49,8 @@ def time_stuff(other_function,arguments):
     local_end = timeit.default_timer()
     m, s = divmod(local_end-local_start, 60)
     h, m = divmod(m, 60)
-    logger.info("Time for execution of %s: %02i:%02i:%02i" %(other_function.__name__,h, m, s))
+    logger.info("Time for execution of %s: %02i:%02i:%02i" %
+    (other_function.__name__,h, m, s))
 
 def split_dict(data, SIZE=10000):
     """Splits a dictionary into chunks of a predetermined SIZE"""
@@ -57,51 +58,56 @@ def split_dict(data, SIZE=10000):
     for i in range(0, len(data), SIZE):
         yield {k:data[k] for k in islice(it, SIZE)}
 
-    
+
 if __name__ == '__main__':
 
     if(input("loop over all files (y/n)? ") == "y"):
-        for file in os.listdir("G:\\"):
+        for file in os.listdir("D:\\__Zelltracks\\Full_Runs"):
             if ("Spots in tracks statistics" in file) and file.endswith(".csv"):
-                filename = "G:/"+file
-                
+                filename = "D:/__Zelltracks/Full_Runs/"+file
+
                 logger.info("opening %s" %filename)
 
                 main_dir = os.path.dirname(filename)
-                base_name = os.path.basename(filename).replace(".csv", "").replace(" ","_")
+                base_name = (os.path.basename(filename).replace(".csv", "")
+                .replace(" ","_"))
 
                 savedir = main_dir + "/" + current_time + "_" + base_name
                 track_dict = tracking(filename)
-                datatype = "pdf"  
+                datatype = "pdf"
                 start = timeit.default_timer()
 
                 processlist = []
-                processlist.append(multiprocessing.Process(target=time_stuff, args=(plot_slices, (track_dict, savedir, datatype),)))
-                processlist.append(multiprocessing.Process(target=time_stuff, args=(plot_all_tracks, (track_dict, savedir, datatype),)))
-                processlist.append(multiprocessing.Process(target=time_stuff, args=(single_plot_velocity, (track_dict, savedir, datatype),)))
-                processlist.append(multiprocessing.Process(target=time_stuff, args=(plot_tracks_centered, (track_dict, savedir, "png"),)))
-                processlist.append(multiprocessing.Process(target=time_stuff, args=(plot_all_tracks_centered, (track_dict, savedir, datatype),)))
-                processlist.append(multiprocessing.Process(target=time_stuff, args=(plot_tracks_singular, (track_dict, savedir, "png"),)))
-                processlist.append(multiprocessing.Process(target=time_stuff, args=(plot_velocity, (track_dict, savedir, "png"),)))
-                processlist.append(multiprocessing.Process(target=time_stuff, args=(distance_from_start, (track_dict, savedir, datatype),)))
+##                processlist.append(multiprocessing.Process(target=time_stuff, args=(plot_slices, (track_dict, savedir, datatype),)))
+##                processlist.append(multiprocessing.Process(target=time_stuff, args=(plot_all_tracks, (track_dict, savedir, datatype),)))
+##                processlist.append(multiprocessing.Process(target=time_stuff, args=(single_plot_velocity, (track_dict, savedir, datatype),)))
+##                processlist.append(multiprocessing.Process(target=time_stuff, args=(plot_tracks_centered, (track_dict, savedir, "png"),)))
+                processlist.append(multiprocessing.Process(target=time_stuff,
+                args=(plot_all_tracks_centered,
+                (track_dict, savedir, datatype),)))
+##                processlist.append(multiprocessing.Process(target=time_stuff, args=(plot_tracks_singular, (track_dict, savedir, "png"),)))
+                processlist.append(multiprocessing.Process(target=time_stuff,
+                args=(plot_velocity, (track_dict, savedir, "png"),)))
+##                processlist.append(multiprocessing.Process(target=time_stuff, args=(distance_from_start, (track_dict, savedir, datatype),)))
                 processlist.append(multiprocessing.Process(target=time_stuff, args=(calc_persistence, (track_dict, savedir),)))
-                processlist.append(multiprocessing.Process(target=time_stuff, args=(delta_persistance, (track_dict, savedir,"png"),)))
+##                processlist.append(multiprocessing.Process(target=time_stuff, args=(delta_persistance, (track_dict, savedir,"png"),)))
                 processlist.append(multiprocessing.Process(target=time_stuff, args=(plot_total_velocity, (track_dict, savedir, "pdf"),)))
                 processlist.append(multiprocessing.Process(target=time_stuff, args=(plot_total_velocity_single_tracks, (track_dict, savedir, "pdf"),)))
-                
+                processlist.append(multiprocessing.Process(target=time_stuff, args=(plot_distances_centered, (track_dict, savedir, "pdf"),)))
+
                 print(len(processlist))
 
                 for item in processlist:
                     item.start()
-                    
+
                 for item in processlist:
                     item.join()
-                
+
                 end = timeit.default_timer()
                 m, s = divmod(end-start, 60)
                 h, m = divmod(m, 60)
                 logger.info("Time for whole execution: %02i:%02i:%02i" %(h, m, s))
-                
+
     else:
         Tk().withdraw()
         filename = askopenfilename()
@@ -114,7 +120,7 @@ if __name__ == '__main__':
 
         savedir = main_dir + "/" + current_time + "_" + base_name
         track_dict = tracking(filename)
-        datatype = "pdf"  
+        datatype = "pdf"
         start = timeit.default_timer()
 
         processlist = []
@@ -131,17 +137,16 @@ if __name__ == '__main__':
 ##        processlist.append(multiprocessing.Process(target=time_stuff, args=(plot_total_velocity, (track_dict, savedir, "pdf"),)))
 ##        processlist.append(multiprocessing.Process(target=time_stuff, args=(plot_total_velocity_single_tracks, (track_dict, savedir, "pdf"),)))
         processlist.append(multiprocessing.Process(target=time_stuff, args=(plot_distances_centered, (track_dict, savedir, "pdf"),)))
-        
+
         print(len(processlist))
 
         for item in processlist:
             item.start()
-            
+
         for item in processlist:
             item.join()
-        
+
         end = timeit.default_timer()
         m, s = divmod(end-start, 60)
         h, m = divmod(m, 60)
         logger.info("Time for whole execution: %02i:%02i:%02i" %(h, m, s))
-
